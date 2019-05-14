@@ -10,6 +10,7 @@
 
 @echo off
 
+@mkdir ..\Bin
 copy helloworld.map ..\Bin\WM_W600.map
 copy objs\helloworld.bin ..\Bin\WM_W600.bin
 cd ..\Bin
