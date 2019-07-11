@@ -18,7 +18,7 @@ __initial_sp
 ;   <o>  Heap Size (in Bytes):at least 80Kbyte
 ; </h>
 
-Heap_Size       EQU     0x18000
+Heap_Size       EQU     0x1A000
 
                 AREA    HEAP, NOINIT, READWRITE, ALIGN=3
 __heap_base

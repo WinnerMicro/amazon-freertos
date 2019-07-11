@@ -147,7 +147,12 @@ CK_OBJECT_HANDLE PKCS11_PAL_SaveObject( CK_ATTRIBUTE_PTR pxLabel,
         ret |= tls_fls_write(PKCS11_PAL_FILE_CSK_ADDR + 4, pucData, ulDataSize);
     }
 
-    //printf("Writing file %s, %d bytes, %s\r\n", pcFileName, ulDataSize, ret ? "failed" : "successfully");
+    if (ret)
+    {
+        xHandle = eInvalidHandle;
+    }
+
+    //wm_printf("Writing file %s, %d bytes, %s\r\n", pcFileName, ulDataSize, xHandle ? "successfully" : "failed");
     //sdfsfa(pucData, ulDataSize);
         /* TODO: save to flash */
     return xHandle;
@@ -194,12 +199,12 @@ CK_OBJECT_HANDLE PKCS11_PAL_FindObject( uint8_t * pcLabel,
             ret = tls_fls_read(PKCS11_PAL_FILE_CSK_ADDR, (u8 *)&ulDataSize, 4);
         }
 
-        if (ret || (0xFFFFFFFF == ulDataSize))
+        if (ret || (0xFFFFFFFF == ulDataSize) || (0 == ulDataSize))
         {
             xHandle = eInvalidHandle;
         }
 
-        //printf( "Finding file %s, %d bytes, %s\r\n", pcFileName, ulDataSize, xHandle ? "successfully" : "failed");
+        //wm_printf( "Finding file %s, %d bytes, %s\r\n", pcFileName, ulDataSize, xHandle ? "successfully" : "failed");
         /* TODO: read form flash  */
     }
 
@@ -275,7 +280,7 @@ CK_RV PKCS11_PAL_GetObjectValue( CK_OBJECT_HANDLE xHandle,
 
             if (!ret)
             {
-                data = pvPortMalloc(*pulDataSize);
+                data = malloc(*pulDataSize);
                 if (!data)
                 {
                     return CKR_HOST_MEMORY;
@@ -293,7 +298,7 @@ CK_RV PKCS11_PAL_GetObjectValue( CK_OBJECT_HANDLE xHandle,
             }
             else
             {
-                vPortFree( data );
+                free( data );
                 return CKR_FUNCTION_FAILED;
             }
         }
@@ -303,7 +308,7 @@ CK_RV PKCS11_PAL_GetObjectValue( CK_OBJECT_HANDLE xHandle,
 
             if (!ret)
             {
-                data = pvPortMalloc(*pulDataSize);
+                data = malloc(*pulDataSize);
                 if (!data)
                 {
                     return CKR_HOST_MEMORY;
@@ -321,7 +326,7 @@ CK_RV PKCS11_PAL_GetObjectValue( CK_OBJECT_HANDLE xHandle,
             }
             else
             {
-                vPortFree( data );
+                free( data );
                 return CKR_FUNCTION_FAILED;
             }
         }
@@ -331,7 +336,7 @@ CK_RV PKCS11_PAL_GetObjectValue( CK_OBJECT_HANDLE xHandle,
 
             if (!ret)
             {
-                data = pvPortMalloc(*pulDataSize);
+                data = malloc(*pulDataSize);
                 if (!data)
                 {
                     return CKR_HOST_MEMORY;
@@ -349,7 +354,7 @@ CK_RV PKCS11_PAL_GetObjectValue( CK_OBJECT_HANDLE xHandle,
             }
             else
             {
-                vPortFree( data );
+                free( data );
                 return CKR_FUNCTION_FAILED;
             }
         }
@@ -358,7 +363,7 @@ CK_RV PKCS11_PAL_GetObjectValue( CK_OBJECT_HANDLE xHandle,
             ulReturn = CKR_OBJECT_HANDLE_INVALID;
         }
 
-        //printf("Reading file %s, %d bytes, %s\r\n", pcFileName, *pulDataSize, ulReturn ? "failed" : "successfully");
+        //wm_printf("Reading file %s, %d bytes, %s\r\n", pcFileName, *pulDataSize, ulReturn ? "failed" : "successfully");
         //sdfsfa(*ppucData, *pulDataSize);
     }
 
@@ -381,7 +386,7 @@ void PKCS11_PAL_GetObjectValueCleanup( uint8_t * pucData,
 
     if( pucData != NULL )
     {
-        vPortFree( pucData );
+        free( pucData );
     }
 }
 

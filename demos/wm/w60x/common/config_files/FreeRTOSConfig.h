@@ -47,6 +47,7 @@
 
 #define socketsconfigDEFAULT_MAX_NUM_SECURE_SOCKETS  10
 #define configSUPPORT_STATIC_ALLOCATION              1
+#define configUSE_PORT_OPTIMISED_TASK_SELECTION      0
 
 #define configUSE_PREEMPTION                         1
 #define configUSE_IDLE_HOOK                          0
@@ -54,8 +55,8 @@
 #define configUSE_TICKLESS_IDLE                      0
 #define configUSE_DAEMON_TASK_STARTUP_HOOK           1
 #define configCPU_CLOCK_HZ                           ( 80000000 )
-#define configTICK_RATE_HZ                           ( ( TickType_t ) 1000u )
-#define configMAX_PRIORITIES                         ( 32 )
+#define configTICK_RATE_HZ                           ( ( TickType_t ) 500u )
+#define configMAX_PRIORITIES                         ( 63 )
 #define configMINIMAL_STACK_SIZE                     ( ( uint16_t ) 90 )
 #define configTOTAL_HEAP_SIZE                        ( ( size_t ) ( 40 * 1024 ) )    /* 85 Kbytes.  12k */
 #define configMAX_TASK_NAME_LEN                      ( 16 )
